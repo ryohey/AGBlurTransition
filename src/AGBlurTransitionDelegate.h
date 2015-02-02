@@ -37,4 +37,16 @@ typedef NS_ENUM (NSInteger, AGBlurTransitionAnimationType)
 /** Configures corner radius. Defaults to 0 */
 @property (nonatomic, assign) CGFloat cornerRadius;
 
+/** Configures opening animation damping. Defaults to 0.6 */
+@property (nonatomic, assign) CGFloat openDamping;
+
+/** Configures closing preshoot scale. Defaults to 1.2 */
+@property (nonatomic, assign) CGFloat closePreshootScale;
+
+/** Configures closing preshoot duration. Defaults to 0.2 */
+@property (nonatomic, assign) CGFloat closePreshootDuration;
+
+/** Configures closing animation final scale. Defaults to 0.00001 */
+@property (nonatomic, assign) CGFloat closeFinalScale;
+
 @end

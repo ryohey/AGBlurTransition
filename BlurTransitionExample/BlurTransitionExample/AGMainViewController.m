@@ -38,6 +38,11 @@
     self.modalPresentationStyle = UIModalPresentationCustom;
     AGModalViewController *vc = [[AGModalViewController alloc] init];
     vc.transitioningDelegate = self.AG_blurTransitionDelegate;
+    self.AG_blurTransitionDelegate.closePreshootDuration = 0.5;
+    self.AG_blurTransitionDelegate.closePreshootScale = 1.2;
+    self.AG_blurTransitionDelegate.closeFinalScale = 0.0f;
+    self.AG_blurTransitionDelegate.openDamping = 0.1;
+    self.AG_blurTransitionDelegate.duration = 3.0f;
     [self presentViewController:vc animated:YES completion:nil];
 }
 

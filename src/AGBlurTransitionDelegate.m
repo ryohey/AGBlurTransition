@@ -32,6 +32,10 @@
         _saturationDeltaFactor = 1.8;
         _insets = UIEdgeInsetsMake(20, 20, 20, 20);
         _cornerRadius = 0;
+        _openDamping = 0.6;
+        _closePreshootScale = 1.2;
+        _closePreshootDuration = 0.2;
+        _closeFinalScale = 0.00001;
     }
     return self;
 }
@@ -113,7 +117,7 @@
     // Animate
     [UIView animateWithDuration:duration
                           delay:0.0
-         usingSpringWithDamping:0.6
+         usingSpringWithDamping:_openDamping
           initialSpringVelocity:0.0
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
@@ -150,26 +154,29 @@
                                    delay:0.0
                                  options:UIViewKeyframeAnimationOptionCalculationModeCubic
                               animations:^{
-                                  // keyframe one
-                                  [UIView addKeyframeWithRelativeStartTime:0.0
-                                                          relativeDuration:0.2
-                                                                animations:^{
-                                                                    if (self.animationType == AGBlurTransitionAnimationTypeSlide) {
-                                                                        fromViewController.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, 0, -fromViewController.view.frame.size.height * .2);
-                                                                    }
-                                                                    else {
-                                                                        fromViewController.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.2, 1.2);
-                                                                    }
-                                                                }];
+                                  
+                                  if (_closePreshootDuration > FLT_EPSILON) {
+                                      // keyframe one
+                                      [UIView addKeyframeWithRelativeStartTime:0.0
+                                                              relativeDuration:_closePreshootDuration
+                                                                    animations:^{
+                                                                        if (self.animationType == AGBlurTransitionAnimationTypeSlide) {
+                                                                            fromViewController.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, 0, -fromViewController.view.frame.size.height * (_closePreshootScale - 1.0));
+                                                                        }
+                                                                        else {
+                                                                            fromViewController.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, _closePreshootScale, _closePreshootScale);
+                                                                        }
+                                                                    }];
+                                  }
                                   // keyframe two
-                                  [UIView addKeyframeWithRelativeStartTime:0.2
+                                  [UIView addKeyframeWithRelativeStartTime:_closePreshootDuration
                                                           relativeDuration:0.6
                                                                 animations:^{
                                                                     if (self.animationType == AGBlurTransitionAnimationTypeSlide) {
                                                                         fromViewController.view.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, 0, fromViewController.view.frame.size.height + self.insets.top);
                                                                     }
                                                                     else {
-                                                                        fromViewController.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.00001, 0.00001);
+                                                                        fromViewController.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, _closeFinalScale, _closeFinalScale);
                                                                     }
                                                                     self.bluredImageView.alpha = 0.0;
                                                                 }];
