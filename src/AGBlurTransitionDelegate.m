@@ -130,8 +130,8 @@
                          //Hack! the view controller is resized and background view moved out of the transition view in iOS7. We need to replace it
                          UIView *parent = toViewController.view.superview;
                          if (parent != self.backgroundView) {
-                             [self.backgroundView addSubview:toViewController.view];
-                             [parent addSubview:self.backgroundView];
+                             [toViewController.view.superview insertSubview:self.backgroundView
+                                                               belowSubview:toViewController.view];
                          }
                      }];
 }
