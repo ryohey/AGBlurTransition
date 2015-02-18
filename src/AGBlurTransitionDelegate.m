@@ -103,7 +103,6 @@
     toViewController.view.frame = UIEdgeInsetsInsetRect(finalFrame, self.insets);
     toViewController.view.layer.cornerRadius = self.cornerRadius;
     [containerView addSubview:self.backgroundView];
-    containerView.frame = finalFrame;
     
     // Set initial state of animation
     if (self.animationType == AGBlurTransitionAnimationTypeSlide) {
@@ -184,6 +183,7 @@
                                                           relativeDuration:1.0
                                                                 animations:^{
                                                                     self.bluredImageView.alpha = 0.0;
+                                                                    toViewController.view.frame = [transitionContext finalFrameForViewController:toViewController];
                                                                 }];
                               }
      
