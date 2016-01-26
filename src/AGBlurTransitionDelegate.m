@@ -125,13 +125,6 @@
                      } completion:^(BOOL finished) {
                          // Inform the context of completion
                          [transitionContext completeTransition:YES];
-                         
-                         //Hack! the view controller is resized and background view moved out of the transition view in iOS7. We need to replace it
-                         UIView *parent = toViewController.view.superview;
-                         if (parent != self.backgroundView) {
-                             [toViewController.view.superview insertSubview:self.backgroundView
-                                                               belowSubview:toViewController.view];
-                         }
                      }];
 }
 
